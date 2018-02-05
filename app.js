@@ -4,9 +4,19 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var MongoClient = require('mongodb').MongoClient;
+var http = require('http');
+var url = require('url');
+
+var db_user = 'thsm1';
+var db_password = 'fLSxJQlNA4fstgiw';
+
+var db_url = `mongodb+srv://${db_user}:${db_password}@cluster0-pbyb5.mongodb.net/test`;
+var db = null;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var events = require('./routes/events');
 
 var app = express();
 
@@ -24,21 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-
-MongoClient.connect(dburl, function(err, client) {
-    if (err) throw err;
-    res.write('Database connection success!\n');
-
-    db = client.db("cluster0");
-    res.write('Connected to cluster.\n');
-
-    mongoFind('users').toArray(function(err, result) {
-        if (err) throw err;
-        res.write(result+'\n');
-        res.end();
-        client.close();
-    });
-});
+app.use('/events', events);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -59,3 +55,32 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+http.createServer(function (req, res) {
+    app.get('/', function (req, res) {
+        res.send('GET request to the homepage')
+    })
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+
+    MongoClient.connect(db_url, function(err, client) {
+        if (err) throw err;
+        res.write('Database connection success!\n');
+
+        db = client.db("cluster0");
+        res.write('Connected to cluster.\n');
+
+        mongoFind('users').toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result+'\n');
+            client.close();
+            res.end();
+        });
+    });
+
+}).listen(8080);
+
+app.listen(3000, () => console.log('Express app listening on port 3000'))
+
+function mongoFind(collection, params = {}) {
+    return db.collection(collection).find(params);
+}
