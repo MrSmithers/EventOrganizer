@@ -8,42 +8,48 @@ var MongoClient = require('mongodb').MongoClient;
 var http = require('http');
 var url = require('url');
 
+// Mongo Database.
 var db_user = 'thsm1';
 var db_password = 'fLSxJQlNA4fstgiw';
 
 var db_url = `mongodb+srv://${db_user}:${db_password}@cluster0-pbyb5.mongodb.net/test`;
 var db = null;
 
+// Routes files.
 var index = require('./routes/index');
 var users = require('./routes/users');
 var events = require('./routes/events');
+var userLogin = require('./routes/userLogin');
 
+// Express magic!
 var app = express();
 
-// view engine setup
+// View engine setup. Currently using Jade.
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// Set up Express.
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// The actual routes.
 app.use('/', index);
 app.use('/users', users);
 app.use('/events', events);
+app.use('/login', userLogin);
 
-// catch 404 and forward to error handler
+// catch 404 and forward to error handler for error handling.
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
-// error handler
+// I am the error handler. I handle errors.
 app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
