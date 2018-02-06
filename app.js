@@ -56,31 +56,31 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-http.createServer(function (req, res) {
-    app.get('/', function (req, res) {
-        res.send('GET request to the homepage')
-    })
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-
-    MongoClient.connect(db_url, function(err, client) {
-        if (err) throw err;
-        res.write('Database connection success!\n');
-
-        db = client.db("cluster0");
-        res.write('Connected to cluster.\n');
-
-        mongoFind('users').toArray(function(err, result) {
-            if (err) throw err;
-            console.log(result+'\n');
-            client.close();
-            res.end();
-        });
-    });
-
-}).listen(8080);
+// http.createServer(function (req, res) {
+//     app.get('/', function (req, res) {
+//         res.send('GET request to the homepage')
+//     })
+//     res.writeHead(200, {'Content-Type': 'text/plain'});
+//
+//     MongoClient.connect(db_url, function(err, client) {
+//         if (err) throw err;
+//         res.write('Database connection success!\n');
+//
+//         db = client.db("cluster0");
+//         res.write('Connected to cluster.\n');
+//
+//         mongoFind('users').toArray(function(err, result) {
+//             if (err) throw err;
+//             console.log(result+'\n');
+//             client.close();
+//             res.end();
+//         });
+//     });
+//
+// }).listen(8080);
 
 app.listen(3000, () => console.log('Express app listening on port 3000'))
 
-function mongoFind(collection, params = {}) {
-    return db.collection(collection).find(params);
-}
+// function mongoFind(collection, params = {}) {
+//     return db.collection(collection).find(params);
+// }
