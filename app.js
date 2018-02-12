@@ -15,11 +15,26 @@ var db_password = 'fLSxJQlNA4fstgiw';
 var db_url = `mongodb+srv://${db_user}:${db_password}@cluster0-pbyb5.mongodb.net/test`;
 var db = null;
 
+MongoClient.connect(db_url, function(err, client) {
+    if (err) throw err;
+
+    db = client.db("assignment1");
+    console.log('Connected to database.\n');
+
+    // mongoFind('users').toArray(function(err, result) {
+    //     if (err) throw err;
+    //     console.log(result+'\n');
+    //     client.close();
+    //     res.end();
+    // });
+});
+
 // Routes files.
 var index = require('./routes/index');
+var config = require('./config/config')();
 var users = require('./routes/users');
 var events = require('./routes/events');
-var userLogin = require('./routes/userLogin');
+var login = require('./routes/login');
 var register = require('./routes/register');
 
 // Express magic!
@@ -37,14 +52,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// The actual routes.
+// The actual routes. These routes can have extensions and parameters following them
+// which will be handled in the respective route file.
 app.use('/', index);
 app.use('/users', users);
 app.use('/events', events);
-app.use('/login', userLogin);
+app.use('/login', login);
 app.use('/sign-up', register);
 
-// catch 404 and forward to error handler for error handling.
+// If not one of the routes above, the page doesn't exit.
+// Catch 404 and pass to the error handler using next() for error handling.
+//
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
@@ -87,8 +105,10 @@ module.exports = app;
 //
 // }).listen(8080);
 
-app.listen(3000, () => console.log('Express app listening on port 3000'))
+http.createServer(app).listen(config.port, function(){
+    console.log('Express app listening on port ' + config.port);
+});
 
-// function mongoFind(collection, params = {}) {
-//     return db.collection(collection).find(params);
-// }
+function mongoFind(collection, params = {}) {
+    return db.collection(collection).find(params);
+}
