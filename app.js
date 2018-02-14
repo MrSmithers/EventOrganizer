@@ -1,3 +1,4 @@
+// Libraries.
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -6,32 +7,35 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 var http = require('http');
-var url = require('url');
+// var url = require('url');
+
+// Local includes.
+var database = require('./config/database')();
+var config = require('./config/config')();
 
 // Mongo Database.
-var db_user = 'thsm1';
-var db_password = 'fLSxJQlNA4fstgiw';
-
-var db_url = `mongodb+srv://${db_user}:${db_password}@cluster0-pbyb5.mongodb.net/test`;
 var db = null;
-
-MongoClient.connect(db_url, function(err, client) {
+MongoClient.connect(database.url+database.validate, function(err, client) {
     if (err) throw err;
-
-    db = client.db("assignment1");
-    console.log('Connected to database.\n');
-
-    // mongoFind('users').toArray(function(err, result) {
-    //     if (err) throw err;
-    //     console.log(result+'\n');
-    //     client.close();
-    //     res.end();
-    // });
+    client.db(database.validate);
+    console.log(`Connected to ${process.argv[2] || 'external'} MongoDB with collection ${database.validate} as validation.`);
 });
+// MongoClient.connect(db_url, function(err, client) {
+//     if (err) throw err;
+//
+//     db = client.db("assignment1");
+//     console.log('Connected to database.\n');
+//
+//     // mongoFind('users').toArray(function(err, result) {
+//     //     if (err) throw err;
+//     //     console.log(result+'\n');
+//     //     client.close();
+//     //     res.end();
+//     // });
+// });
 
 // Routes files.
 var index = require('./routes/index');
-var config = require('./config/config')();
 var users = require('./routes/users');
 var events = require('./routes/events');
 var login = require('./routes/login');

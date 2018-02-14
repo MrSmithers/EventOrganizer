@@ -3,12 +3,12 @@ var config = {
         mode: 'local',
         port: 3000
     },
-    demo: {
+    external: {
         mode: 'demo',
         port: 4000
     }
 }
 module.exports = function(mode) {
     // Default to local settings.
-    return config[mode || process.argv[2] || 'demo'] || config.demo;
+    return config[mode || process.argv[2] || 'external'] || config.external;
 }
