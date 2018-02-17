@@ -4,7 +4,7 @@ var config = {
         port: 3000
     },
     external: {
-        mode: 'demo',
+        mode: 'external',
         port: 4000
     }
 }
