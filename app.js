@@ -7,6 +7,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 var http = require('http');
+var https = require('https');
+var fs = require('fs');
 // var url = require('url');
 
 // Local includes.
@@ -109,7 +111,15 @@ module.exports = app;
 //
 // }).listen(8080);
 
-http.createServer(app).listen(config.port, function(){
+// Use a self-signed SSL certificate.
+var options = {
+    key: fs.readFileSync('/Users/Tom/Documents/webapps/EventOrganizer/server.key'),
+    cert: fs.readFileSync('/Users/Tom/Documents/webapps/EventOrganizer/server.crt'),
+    requestCert: false,
+    rejectUnauthorized: false
+};
+
+https.createServer(options, app).listen(config.port, function(){
     console.log('Express app listening on port ' + config.port);
 });
 
