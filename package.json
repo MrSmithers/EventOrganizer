@@ -6,13 +6,17 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "~1.18.2",
     "bootstrap": "^4.0.0",
     "cookie-parser": "~1.4.3",
+    "cookies": "^0.7.1",
     "debug": "~2.6.9",
     "express": "~4.15.5",
+    "express-validator": "^5.0.1",
     "jade": "~1.11.0",
     "jasmine-node": "^1.14.5",
+    "jquery": "^3.3.1",
     "mongodb": "^3.0.2",
     "morgan": "~1.9.0",
     "react": "^16.2.0",
