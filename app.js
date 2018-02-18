@@ -1,50 +1,40 @@
 // Libraries.
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var MongoClient = require('mongodb').MongoClient;
-var http = require('http');
-var https = require('https');
-var fs = require('fs');
-// var url = require('url');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const MongoClient = require('mongodb').MongoClient;
+// const http = require('http');
+const https = require('https');
+const fs = require('fs');
+const sass = require('node-sass-middleware');
+
+// Parameter passed in when the server is initialized.
+const mode = process.argv[2];
 
 // Local includes.
-var database = require('./config/database')();
-var config = require('./config/config')();
+const database = require('./config/database')(mode);
+const config = require('./config/config')();
+const mongodb = require('./models/mongo');
 
 // Mongo Database.
-var db = null;
-MongoClient.connect(database.url+database.validate, function(err, client) {
+mongodb.connect(function(err) {
     if (err) throw err;
-    client.db(database.validate);
-    console.log(`Connected to ${process.argv[2] || 'external'} MongoDB with collection ${database.validate} as validation.`);
+    console.log(`Connected to ${mode || 'external'} MongoDB with collection ` +
+    `${database.validate} as validation.`);
 });
-// MongoClient.connect(db_url, function(err, client) {
-//     if (err) throw err;
-//
-//     db = client.db("assignment1");
-//     console.log('Connected to database.\n');
-//
-//     // mongoFind('users').toArray(function(err, result) {
-//     //     if (err) throw err;
-//     //     console.log(result+'\n');
-//     //     client.close();
-//     //     res.end();
-//     // });
-// });
 
 // Routes files.
-var index = require('./routes/index');
-var users = require('./routes/users');
-var events = require('./routes/events');
-var login = require('./routes/login');
-var register = require('./routes/register');
+const index = require('./routes/index');
+const users = require('./routes/users');
+const events = require('./routes/events');
+const login = require('./routes/login');
+const register = require('./routes/register');
 
 // Express magic!
-var app = express();
+const app = express();
 
 // View engine setup. Currently using Jade.
 app.set('views', path.join(__dirname, 'views'));
@@ -68,9 +58,8 @@ app.use('/sign-up', register);
 
 // If not one of the routes above, the page doesn't exit.
 // Catch 404 and pass to the error handler using next() for error handling.
-//
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    let err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
@@ -112,7 +101,7 @@ module.exports = app;
 // }).listen(8080);
 
 // Use a self-signed SSL certificate.
-var options = {
+const options = {
     key: fs.readFileSync('/Users/Tom/Documents/webapps/EventOrganizer/server.key'),
     cert: fs.readFileSync('/Users/Tom/Documents/webapps/EventOrganizer/server.crt'),
     requestCert: false,
@@ -122,7 +111,3 @@ var options = {
 https.createServer(options, app).listen(config.port, function(){
     console.log('Express app listening on port ' + config.port);
 });
-
-function mongoFind(collection, params = {}) {
-    return db.collection(collection).find(params);
-}
