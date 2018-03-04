@@ -1,20 +1,54 @@
 doctype html
 html
-  head
-    title= title
-    // Global stylesheet file.
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    // Global javascript file.
-    script(src="/javascripts/layout.js")
+    head
+        // Bootstrap, to help with UI design.
+        link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+        // Font awesome for cool icons.
+        script(src="/fontawesome/svg-with-js/js/fontawesome-all.js")
 
-    // Bootstrap, to help with UI design.
-    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
-    // jQuery, to help with frontend Javascript.
-    script(src="/javascripts/jquery-3.3.1.min.js")
-  if (module && directory)
-      // If a module and
-      link(rel='stylesheet', href='/stylesheets/#{module}/#{directory}.css')
-      script(src="/javascripts/#{module}/#{directory}.js")
-  block head
-  body
-    block content
+
+        link(rel='stylesheet', href='/fontawesome/web-fonts-with-css/css/fontawesome.css')
+        // jQuery, to help with frontend Javascript.
+        script(src="/javascripts/jquery-3.3.1.min.js")
+        // Bootstrap Javascript.
+        script(src="/bootstrap/js/bootstrap.js")
+
+        title= title
+        // Global stylesheet file.
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        // Global javascript file.
+        script(src="/javascripts/layout.js")
+
+        if (module && file)
+            // If a module and file are set, then load their relative stylesheet and javascript files.
+            link(rel='stylesheet', href='/stylesheets/#{module}/#{file}.css')
+            script(src="/javascripts/#{module}/#{file}.js")
+
+        block head
+    body
+        .banner
+            .col-sm-6.col-md-4.logo.float-left #[a(href="/") #[img(src="/images/calendar.png" class="logo-image")]]
+            .site-name.col-sm-6.col-md-8.float-left event organizer
+            .navbar.col-sm-6.col-md-8.float-left
+                .col-sm-6.col-md-3.btn-padding
+                    a.btn.btn-danger.nav-btn(href="/events") #[i.fa.fa-calendar] Events
+                .col-sm-6.col-md-3.btn-padding
+                    if (cookie)
+                        a.btn.btn-danger.nav-btn(href="/users/profile/#{cookie.id}") #[i.fa.fa-user] Profile
+                    else
+                        a.btn.btn-danger.nav-btn(href="/login") #[i.fa.fa-user] Profile
+                if (cookie)
+                    .col-sm-6.col-md-3.btn-padding
+                        a.btn.btn-danger.nav-btn(href="/events/create") #[i.fa.fa-plus] Add Event
+                    .col-sm-6.col-md-3.btn-padding
+                        a.btn.btn-danger.nav-btn(href="/logout") #[i.fa.fa-sign-out-alt] Logout
+                else
+                    .col-sm-6.col-md-3.btn-padding
+                        a.btn.btn-danger.nav-btn(href="/login") #[i.fa.fa-sign-in-alt] Login
+                    .col-sm-6.col-md-3.btn-padding
+                        a.btn.btn-danger.nav-btn(href="/sign-up") #[i.fa.fa-user-plus] Register
+
+            .clear-both
+        .content
+            block content
+        footer Event Organizer
