@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+    h1= title
+    .events-container
+        if (events)
+            each event in events
+                .col-md-6.event-container
+                    a(href="/events/view/#{event._id}")
+                        h2= event.title
+                    p= event.description
+            .clear-both
+        else
+            p There are no events to be shown.

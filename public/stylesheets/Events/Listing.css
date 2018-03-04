@@ -1,0 +1,12 @@
+.event-container {
+    /*border-style: solid;*/
+    border-width: 5px;
+    float: left;
+}
+
+.events-container {
+    background-color: #f9ece7;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0 20px;
+}

@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+	h1= event.title
+	if (event.user._id == cookie.id)
+		a.btn.btn-danger.edit-event-btn(href="/events/delete/#{event._id}") #[i.fa.fa-pencil] Edit
+		a.btn.btn-danger.edit-event-btn(href="/events/create/#{event._id}") #[i.fa.fa-cross] Delete
+
+	p Created by&nbsp;
+		a(href="/users/profile/#{event.user._id}") #{event.user.name}
+
+	p= event.description
+

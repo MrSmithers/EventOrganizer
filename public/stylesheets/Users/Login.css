@@ -1,0 +1,16 @@
+.login-container {
+    max-width: 560px;
+}
+
+.login-form {
+    border: 3px solid #3689ff;
+    background: #c8f7ff;
+    border-radius: 4px;
+}
+
+
+
+.login-register-link {
+    font-size: 10px;
+    padding: 5px 0;
+}

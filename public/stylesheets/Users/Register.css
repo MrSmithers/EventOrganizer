@@ -1,0 +1,11 @@
+.register-container {
+    max-width: 560px;
+    padding: 10px;
+}
+
+.register-form {
+    border: 3px solid #3689ff;
+    background: #c8f7ff;
+    border-radius: 4px;
+    padding-bottom: 10px;
+}

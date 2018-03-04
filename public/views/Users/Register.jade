@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+    h1= title
+    .container.register-container
+        form#register-form.col-lg-12.register-form(action="/sign-up", method="post")
+            h2.form-signin-heading Sign up to access our features
+            input.input-block-level.col-lg-12.form-row.form-field(type="text", name="email", placeholder="Email address", autocomplete="email")
+            input.input-block-level.col-lg-12.form-row.form-field(type="password", name="password", placeholder="Password", autocomplete="current-password")
+            input.input-block-level.col-lg-12.form-row.form-field(type="text", name="name", placeholder="Display name")
+            if (errors)
+                .error-container.col-lg-12
+                    each error in errors
+                        .error-row.col-lg-12 #{error.msg}
+            button.btn.btn-large.btn-primary.col-lg-12.submit#register-submit(type="submit") Sign up

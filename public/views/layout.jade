@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title= title
+    // Global stylesheet file.
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    // Global javascript file.
+    script(src="/javascripts/layout.js")
+
+    // Bootstrap, to help with UI design.
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+    // jQuery, to help with frontend Javascript.
+    script(src="/javascripts/jquery-3.3.1.min.js")
+  if (module && directory)
+      // If a module and
+      link(rel='stylesheet', href='/stylesheets/#{module}/#{directory}.css')
+      script(src="/javascripts/#{module}/#{directory}.js")
+  block head
+  body
+    block content

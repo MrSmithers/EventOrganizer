@@ -9,7 +9,6 @@ const MongoClient = require('mongodb').MongoClient;
 // const http = require('http');
 const https = require('https');
 const fs = require('fs');
-const sass = require('node-sass-middleware');
 
 // Parameter passed in when the server is initialized.
 const mode = process.argv[2];
@@ -17,7 +16,7 @@ const mode = process.argv[2];
 // Local includes.
 const database = require('./config/database')(mode);
 const config = require('./config/config')();
-const mongodb = require('./models/mongo');
+const mongodb = require('./public/models/mongo');
 
 // Mongo Database.
 mongodb.connect(function(err) {
@@ -27,17 +26,19 @@ mongodb.connect(function(err) {
 });
 
 // Routes files.
-const index = require('./routes/index');
-const users = require('./routes/users');
-const events = require('./routes/events');
-const login = require('./routes/login');
-const register = require('./routes/register');
+const index = require('./public/routes/index');
+const users = require('./public/routes/users');
+const events = require('./public/routes/events');
+const login = require('./public/routes/login');
+const logout = require('./public/routes/logout');
+const register = require('./public/routes/register');
+const jsonapi = require('./public/routes/jsonapi');
 
 // Express magic!
 const app = express();
 
 // View engine setup. Currently using Jade.
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'public', 'views'));
 app.set('view engine', 'jade');
 
 // Set up Express.
@@ -54,7 +55,9 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/events', events);
 app.use('/login', login);
+app.use('/logout', logout);
 app.use('/sign-up', register);
+app.use('/api', jsonapi);
 
 // If not one of the routes above, the page doesn't exit.
 // Catch 404 and pass to the error handler using next() for error handling.
@@ -102,6 +105,7 @@ module.exports = app;
 
 // Use a self-signed SSL certificate.
 const options = {
+    // Uni assignment
     key: fs.readFileSync('/Users/Tom/Documents/webapps/EventOrganizer/server.key'),
     cert: fs.readFileSync('/Users/Tom/Documents/webapps/EventOrganizer/server.crt'),
     requestCert: false,
