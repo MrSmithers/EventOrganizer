@@ -7,7 +7,7 @@ exports.login = function (data, next) {
 
     let users = mongodb.get().collection('users');
 
-    users.findOne({Email: email}, (err, document) => {
+    users.findOne({email: email}, (err, document) => {
         if (document == null) {
             const err = [ {
                 location: 'body',
@@ -18,7 +18,7 @@ exports.login = function (data, next) {
             next(err);
         } else {
             // User found.
-            bcrypt.compare(password, document.Hash, (err, success) => {
+            bcrypt.compare(password, document.hash, (err, success) => {
                 if (err) {
                     const err = [ {
                         location: 'body',

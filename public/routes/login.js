@@ -51,18 +51,18 @@ router.post('/', [
                 errors: err
             });
             next();
-        }
-
-        // Set the session cookie.
-        res.cookie('session', {id: document._id});
-
-        if (redirect) {
-            res.redirect(redirect);
         } else {
-            res.redirect('/');
-        }
+            // Set the session cookie.
+            res.cookie('session', {id: document._id});
 
-        next();
+            if (redirect) {
+                res.redirect(redirect);
+            } else {
+                res.redirect('/');
+            }
+
+            next();
+        }
     });
 });
 
