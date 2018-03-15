@@ -4,12 +4,12 @@ const { body, validationResult } = require('express-validator/check');
 const login = require('../controllers/Users/login');
 
 router.get('/', (req, res, next) => {
-    const redirect = req.body.redirect || '';
+    const redirect = req.query.redirect || '';
 
     if (req.cookies.session) {
         // Already logged in, silly!
         if (redirect) {
-            res.redirect(redirect);
+            res.redirect('/'+redirect);
         } else {
             res.redirect('/');
         }
@@ -56,9 +56,9 @@ router.post('/', [
             res.cookie('session', {id: document._id});
 
             if (redirect) {
-                res.redirect(redirect);
+                res.redirect('/'+decodeURIComponent(redirect));
             } else {
-                res.redirect('/');
+                res.redirect('/redirect');
             }
 
             next();

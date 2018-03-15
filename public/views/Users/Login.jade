@@ -3,7 +3,7 @@ extends ../layout
 block content
 	h1= title
 	p Please log in to your account
-	p redirect is #{errors}
+	p redirect is #{redirect}
 		.container.login-container
 			form#login-form.form-signin.col-lg-12.login-form(action="/login", method="post")
 				h2.form-signin-heading Please sign in

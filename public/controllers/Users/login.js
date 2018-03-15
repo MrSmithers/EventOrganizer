@@ -32,7 +32,6 @@ exports.login = function (data, next) {
                 if (success) {
                     // Return no error.
                     next(null, document);
-
                 } else {
                     // Passwords don't match
                     const err = [ {

@@ -10,9 +10,7 @@ router.get('/', [
 ], (req, res, next) => {
     if (!req.cookies.session) {
         // If user not logged in...
-        const err = new Error('Not Found');
-        err.status = 404;
-        next(err);
+        res.redirect('/login?redirect=events');
     }
 
     listing.getListing((err, documents) => {

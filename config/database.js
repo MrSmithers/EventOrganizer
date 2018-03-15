@@ -17,5 +17,5 @@ var config = {
 // Default to external.
 module.exports = (mode) => {
     // Return cloud MongoDB cluster details by default;
-    return config[mode || 'external'] || null;
+    return config[mode || process.argv[2] || 'external'] || null;
 }
