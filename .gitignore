@@ -59,3 +59,11 @@ typings/
 
 # intelliJ
 \.idea/
+
+public/\.DS_Store
+
+public/stylesheets/\.DS_Store
+
+public/views/\.DS_Store
+
+public/controllers/\.DS_Store

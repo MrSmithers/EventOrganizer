@@ -58,7 +58,7 @@ router.post('/', [
             if (redirect) {
                 res.redirect('/'+decodeURIComponent(redirect));
             } else {
-                res.redirect('/redirect');
+                res.redirect('/');
             }
 
             next();
