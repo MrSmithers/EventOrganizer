@@ -34,7 +34,7 @@ html
                     a.btn.btn-danger.nav-btn(href="/events") #[i.fa.fa-calendar] Events
                 .col-sm-6.col-md-3.btn-padding
                     if (cookie)
-                        a.btn.btn-danger.nav-btn(href="/users/profile/#{cookie.id}") #[i.fa.fa-user] Profile
+                        a.btn.btn-danger.nav-btn(href="/users/profile/#{cookie}") #[i.fa.fa-user] Profile
                     else
                         a.btn.btn-danger.nav-btn(href="/login") #[i.fa.fa-user] Profile
                 if (cookie)

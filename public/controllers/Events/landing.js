@@ -21,7 +21,6 @@ exports.getEvent = function (id, next) {
                 }
                 else {
                     document.user = user;
-                    console.log(document);
                     next(null, document);
                 }
             });

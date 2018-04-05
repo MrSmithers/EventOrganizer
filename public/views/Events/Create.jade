@@ -9,7 +9,7 @@ block content
             input.input-block-level.col-lg-12.form-row.form-field(type="text", name="title", placeholder="Event Title")
             textarea.input-block-level.col-lg-12.form-row.form-field(name="description", placeholder="Description...")
             input.input-block-level.col-lg-12.form-row.form-field(type="text", name="datetime", placeholder="dd/mm/yyyy", class="datetimepicker")
-            input.input-block-level(type="hidden", name="userId", value="#{cookie.id}")
+            input.input-block-level(type="hidden", name="userId", value="#{cookie}")
             if (errors)
                 .error-container.col-lg-12
                     each error in errors

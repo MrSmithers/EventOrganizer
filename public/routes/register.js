@@ -35,7 +35,7 @@ router.post('/', (req, res, next) => {
             next();
         } else {
             // Set the session cookie.
-            res.cookie('session', {id: document._id});
+            res.cookie('session', document._id);
             res.redirect('/');
 
             next();
