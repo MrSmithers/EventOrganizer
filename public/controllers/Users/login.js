@@ -19,7 +19,8 @@ exports.login = function (data, next) {
         } else {
             // User found.
             bcrypt.compare(password, document.hash, (err, success) => {
-                if (err) {
+                if (err || !success) {
+                    // Passwords don't match
                     const err = [ {
                         location: 'body',
                         param: 'password',
@@ -27,19 +28,9 @@ exports.login = function (data, next) {
                     } ];
 
                     next(err);
-                }
-
-                if (success) {
+                } else {
                     // Return no error.
                     next(null, document);
-                } else {
-                    // Passwords don't match
-                    const err = [ {
-                        location: 'body',
-                        param: 'password',
-                        msg: 'Password is incorrect'
-                    } ];
-                    next(err);
                 }
             });
         }

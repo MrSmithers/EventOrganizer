@@ -59,6 +59,8 @@ typings/
 
 # intelliJ
 \.idea/
+/public/bootstrap/
+/public/fontawesome/
 
 public/\.DS_Store
 
