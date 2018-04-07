@@ -69,3 +69,5 @@ public/stylesheets/\.DS_Store
 public/views/\.DS_Store
 
 public/controllers/\.DS_Store
+
+\.DS_Store

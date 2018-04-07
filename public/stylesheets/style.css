@@ -28,7 +28,7 @@ body {
 }
 
 .content {
-    /*padding: 50px;*/
+    padding: 50px;
     position:relative;
 }
 
@@ -99,4 +99,8 @@ footer {
 
 .form-field {
     padding: 4px;
+}
+
+.pull-right {
+    float: right;
 }

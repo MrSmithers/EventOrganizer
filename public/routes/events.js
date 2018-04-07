@@ -4,6 +4,8 @@ const { body, params, validationResult } = require('express-validator/check');
 const listing = require('../controllers/Events/listing');
 const landing = require('../controllers/Events/landing');
 const create = require('../controllers/Events/create');
+const edit = require('../controllers/Events/edit');
+const del = require('../controllers/Events/delete');
 
 router.get('/', [
     // Validate user cookie.
@@ -95,6 +97,90 @@ router.post('/create', [
 
     });
 
+});
+
+router.get('/edit/:eventId', (req, res, next) => {
+    if (!req.cookies.session) {
+        // If user not logged in...
+        const err = new Error('Not Found');
+        err.status = 404;
+        next(err);
+    }
+
+    edit.getEvent(req.params.eventId, (err, document) => {
+        if (err || document === null) {
+            const err = new Error('Not Found');
+            err.status = 404;
+            next(err);
+        } else {
+            res.render('Events/Edit', {
+                title: 'Event Edit',
+                body: req.body,
+                success: err,
+                cookie: req.cookies.session,
+                event: document
+            });
+        }
+    });
+});
+
+router.post('/edit/:eventId', [
+    // Validate user cookie.
+    // Validate post params.
+    // Validate userId in post params is the same as cookie.
+], (req, res, next) => {
+    edit.updateEvent(req.params.eventId, req.body, (err) => {
+        if (err)
+        {
+            next(err);
+        }
+        else
+        {
+            res.redirect('/events/view/'+req.params.eventId);
+        }
+    });
+});
+
+router.get('/delete/:eventId', (req, res, next) => {
+    if (!req.cookies.session) {
+        // If user not logged in...
+        const err = new Error('Not Found');
+        err.status = 404;
+        next(err);
+    }
+
+    del.getEvent(req.params.eventId, (err, document) => {
+       if (err || document === null) {
+           const err = new Error('Not Found');
+           err.status = 404;
+           next(err);
+       } else {
+           res.render('Events/Delete', {
+               module: 'Events',
+               file: 'Delete',
+               title: 'Event Delete',
+               cookie: req.cookies.session,
+               event: document
+           });
+       }
+    });
+});
+
+router.get('/delete/:eventId/confirm', (req, res, next) => {
+    if (!req.cookies.session) {
+        // If user not logged in...
+        const err = new Error('Not Found');
+        err.status = 404;
+        next(err);
+    }
+
+    del.deleteEvent(req.params.eventId, (err) => {
+        if (err) {
+            next(err);
+        } else {
+            res.redirect('/events');
+        }
+    })
 });
 
 module.exports = router;
